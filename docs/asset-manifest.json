@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "./static/css/main.669ab135.css",
+    "main.js": "./static/js/main.4f02db31.js",
+    "static/js/787.0f4626ec.chunk.js": "./static/js/787.0f4626ec.chunk.js",
+    "static/media/comic_typo.ttf": "./static/media/comic_typo.9b7f65195c49b1c578fd.ttf",
+    "static/media/comic_icons.ttf": "./static/media/comic_icons.ecec7cc2c087afb60d86.ttf",
+    "index.html": "./index.html",
+    "main.669ab135.css.map": "./static/css/main.669ab135.css.map",
+    "main.4f02db31.js.map": "./static/js/main.4f02db31.js.map",
+    "787.0f4626ec.chunk.js.map": "./static/js/787.0f4626ec.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.669ab135.css",
+    "static/js/main.4f02db31.js"
+  ]
+}

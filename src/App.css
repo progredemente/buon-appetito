@@ -1,0 +1,81 @@
+.app {
+  height: 100%;
+  color: var(--primary-color);
+}
+
+.gif {
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 500px;
+  margin: 10px auto;
+}
+
+.button {
+  background-color: var(--secondary-color);
+  border: 0;
+  color: black;
+  margin: 10px;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.download {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.buttons > .button {
+  flex: 40%;
+}
+
+
+.buttons > .button.download {
+  flex: 100%;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.loading > img {
+  width: 200px;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 10px 0;
+  max-width: 350px;
+  color: var(--secondary-color);
+}
+
+.title > img {
+  height: 240px;
+  width: 325px;
+  object-position: -4501px -1px;
+  object-fit: none;
+  margin-bottom: 10px;
+}
+
+.title > div {
+  margin-left: auto;
+  font-size: .75em;
+}
