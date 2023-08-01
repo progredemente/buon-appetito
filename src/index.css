@@ -1,8 +1,3 @@
-@font-face {
-  font-family: ComicTypo;
-  src: url('./comic_typo.ttf');
-}
-
 * {
     font-family: ComicTypo;
     box-sizing: border-box;
