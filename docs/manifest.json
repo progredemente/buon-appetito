@@ -3,7 +3,7 @@
   "name": "Buon Appetito",
   "icons": [
     {
-      "src": "favicon.png",
+      "src": "https://progredemente.com/resources/buon_appetito.png",
       "type": "image/png",
       "sizes": "256x256"
     }
