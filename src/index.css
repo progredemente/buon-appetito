@@ -18,3 +18,8 @@ a {
     text-decoration: none;
     color: var(--primary-color);
 }
+
+.prg-button {
+    --prg-button-background-color: var(--secondary-color);
+    --prg-button-text-color: black;
+}

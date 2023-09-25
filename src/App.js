@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { GIFEncoder } from './GIFEncoder';
+import { GIFEncoder } from 'components/GIFEncoder';
 import { Icon } from 'components/Icon';
 
 class App extends Component {
@@ -317,7 +317,7 @@ class App extends Component {
                         />
                         <div className="buttons">
                             <div
-                                className="button"
+                                className="prg-button"
                                 onClick={() => {
                                     this.upload()
                                 }}
@@ -339,7 +339,7 @@ class App extends Component {
                             {
                                 this.state.flag &&
                                 <div
-                                    className="button download"
+                                    className="prg-button download"
                                     onClick={() => {
                                         this.download()
                                     }}
