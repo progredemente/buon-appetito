@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { GIFEncoder } from 'components/GIFEncoder';
 import { Icon } from 'components/Icon';
+import { AppsBar } from 'components/AppsBar';
 
 class App extends Component {
 
@@ -267,7 +268,7 @@ class App extends Component {
 
     render() {
         return (
-            <>
+            <AppsBar current='buon-appetito'>
                 {
                     !this.state.loaded &&
                     <div className="loading">
@@ -362,7 +363,7 @@ class App extends Component {
                         </div>
                     </div>
                 }
-            </>
+            </AppsBar>
         )
     }
 }

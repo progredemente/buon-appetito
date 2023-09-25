@@ -23,3 +23,8 @@ a {
     --prg-button-background-color: var(--secondary-color);
     --prg-button-text-color: black;
 }
+
+.apps-bar-container {
+    --apps-bar-primary-color: var(--primary-color) !important;
+    --apps-bar-secondary-color: var(--secondary-color) !important;
+}
