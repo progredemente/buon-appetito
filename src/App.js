@@ -1,60 +1,57 @@
 import React, { Component } from 'react';
 import './App.css';
-import { GIFEncoder } from 'components/GIFEncoder';
-import { Icon } from 'components/Icon';
-import { AppsBar } from 'components/AppsBar';
+import { GIFer } from 'components/GIFer';
 
 class App extends Component {
 
     constructor(props){
         super(props);
-        this.isSpanish = navigator.language.toLowerCase().startsWith("es");
-        this.state = {
-            loaded: false,
-            gif: null,
-            flag: null
-        }
-        this.scaleFactor = .25;
-        this.side = 1500;
-        this.img = null;
-    }
-
-    componentDidMount(){
-        this.img = new Image();
-        this.img.src = './buon_appetito.png';
-        this.img.onload = () => {
-            this.setState({loaded: true});
-            this.create();
+        try{
+            this.lang = navigator.language.toLowerCase().split('-')[0];
+        } catch(_){}
+        if(!['en', 'es'].includes(this.lang)){
+            this.lang = 'en';
         }
     }
 
-    create() {
-        let encoder = new GIFEncoder();
+    create(encoder, context, image, customImage, scaleFactor, side, clear) {
         encoder.setRepeat(0);
         encoder.setDelay(150);
-        encoder.start();
-        let canvas = document.createElement('canvas');
-        canvas.width = this.side * this.scaleFactor;
-        canvas.height = this.side * this.scaleFactor;
-        let context = canvas.getContext('2d');
-        this.clear(context);
-        this.draw(0, context);
+        clear(context);
+        this.draw(0, context, image, customImage, scaleFactor, side);
         encoder.addFrame(context);
-        this.clear(context);
-        this.draw(1, context);
+        clear(context);
+        this.draw(1, context, image, customImage, scaleFactor, side);
         encoder.addFrame(context);
-        this.clear(context);
-        this.draw(2, context);
+        clear(context);
+        this.draw(2, context, image, customImage, scaleFactor, side);
         encoder.addFrame(context);
-
-        encoder.finish();
-        let binaryGif = encoder.stream().getData();
-        this.setState({ gif: `data:image/gif;base64,${window.btoa(binaryGif)}`})
     }
 
-    drawFlag(context, bezierCurve) {
-        const imgW = this.side * this.scaleFactor * .5;
-        const imgH = this.side * this.scaleFactor * .20;
+    draw(frameNumber, context, image, customImage, scaleFactor, side) {
+        var bezierCurve = {};
+        bezierCurve.p1 = {x : 220, y : 140};
+        bezierCurve.p2 = {x : 100, y : 300};
+        bezierCurve.cp1 = {x : 150, y : 140};
+        bezierCurve.cp2 = {x : 200, y : 300};
+        if(customImage) {
+            if(frameNumber === 1){
+                bezierCurve.p1 = {x : 215, y : 130};
+                bezierCurve.cp1 = {x : 145, y : 160};
+            }
+            else if(frameNumber === 2) {
+                bezierCurve.p1 = {x : 220, y : 150};
+                bezierCurve.cp1 = {x : 150, y : 150};
+            }
+            this.drawFlag(context, bezierCurve, customImage, scaleFactor, side);
+        }
+        context.drawImage(image, side * frameNumber, 0, side, side, 0, 0, side * scaleFactor, side * scaleFactor);
+        this.drawUrl(context, scaleFactor, side);
+    }
+
+    drawFlag(context, bezierCurve, customImage, scaleFactor, side) {
+        const imgW = side * scaleFactor * .5;
+        const imgH = side * scaleFactor * .20;
 
         function getBezierAt(bezier, position){
             let a = (1 - position); 
@@ -177,8 +174,8 @@ class App extends Component {
             gl.drawArrays(gl.TRIANGLE_STRIP, 0, mesh.meshBuf.numVerts);
         }
         let can = document.createElement("canvas");
-        can.width=this.side * this.scaleFactor;
-        can.height=this.side * this.scaleFactor;
+        can.width= side * scaleFactor;
+        can.height= side * scaleFactor;
         let gl = can.getContext("webgl");
         gl.viewportWidth = can.width;
         gl.viewportHeight = can.height;
@@ -188,7 +185,7 @@ class App extends Component {
         glMesh.program = createShaders();
         glMesh.W = imgW;
         glMesh.H = imgH;
-        glMesh.texture = createTextureFromImage(this.state.flag);
+        glMesh.texture = createTextureFromImage(customImage);
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);    
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
         gl.clearColor(0,0,0,0);
@@ -207,163 +204,26 @@ class App extends Component {
         context.drawImage(can,0,0);
     }
 
-    
-    draw(frameNumber, context) {
-        var bezierCurve = {};
-        bezierCurve.p1 = {x : 220, y : 140};
-        bezierCurve.p2 = {x : 100, y : 300};
-        bezierCurve.cp1 = {x : 150, y : 140};
-        bezierCurve.cp2 = {x : 200, y : 300};
-        if(this.state.flag) {
-            if(frameNumber === 1){
-                bezierCurve.p1 = {x : 215, y : 130};
-                bezierCurve.cp1 = {x : 145, y : 160};
-            }
-            else if(frameNumber === 2) {
-                bezierCurve.p1 = {x : 220, y : 150};
-                bezierCurve.cp1 = {x : 150, y : 150};
-            }
-            this.drawFlag(context, bezierCurve);
-        }
-        context.drawImage(this.img, this.side * frameNumber, 0, this.side, this.side, 0, 0, this.side * this.scaleFactor, this.side * this.scaleFactor);
-        this.drawUrl(context);
-    }
-
-    drawUrl(context) {
-        context.font = `${80 * this.scaleFactor}px ComicTypo`;
+    drawUrl(context, scaleFactor, side) {
+        context.font = `${80 * scaleFactor}px ComicTypo`;
         context.textAlign = "center";
         context.fillStyle = "rgba(0, 0, 0, .5)";
-        context.fillText("progredemente.com/buon-appetito", this.side * this.scaleFactor / 2 , 70 * this.scaleFactor);
-    }
-
-    clear(context) {
-        context.fillStyle = "white";
-        context.fillRect(0, 0, this.side * this.scaleFactor, this.side * this.scaleFactor);
-    }
-
-    download() {
-        let link = document.createElement('a');
-        link.download = 'buon_appetito.gif';
-        link.href = this.state.gif;
-        link.click();
-    }
-
-    upload() {
-        let input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/png, image/jpeg';
-        input.onchange = () => {
-            let fr = new FileReader();
-            fr.addEventListener('load', (e) => {
-                let flag = new Image();
-                flag.src = e.target.result;
-                flag.onload = () => {
-                    this.setState({flag}, this.create);
-                }
-            });
-            fr.readAsDataURL(input.files[0]);
-        }
-        input.click();
+        context.fillText("progredemente.com/buon-appetito", side * scaleFactor / 2 , 70 * scaleFactor);
     }
 
     render() {
         return (
-            <AppsBar current='buon-appetito'>
-                {
-                    !this.state.loaded &&
-                    <div className="loading">
-                        <img src={`${process.env.RESOURCES_URL}/buon_appetito.png`} alt="Cargando" />
-                            {
-                                this.isSpanish && 
-                                <>
-                                Cargando
-                                </>
-                            }
-                            {
-                                !this.isSpanish && 
-                                <>
-                                Loading
-                                </>
-                            }
-                    </div>
-                }
-                {
-                    this.state.loaded && this.state.gif &&
-                    <div className="app">
-                        <div
-                            className="title"
-                        >
-                            <img
-                                src="./buon_appetito.png"
-                                alt="Buon Appetito"
-                            />
-                            <div>
-                                {
-                                    this.isSpanish && 
-                                    <>
-                                    por
-                                    </>
-                                }
-                                {
-                                    !this.isSpanish && 
-                                    <>
-                                    by
-                                    </>
-                                } <a href="/" target="_blank">progredemente</a></div>
-                        </div>
-                        <img
-                            src={this.state.gif}
-                            alt="gif"
-                            className="gif"
-                        />
-                        <div className="buttons">
-                            <div
-                                className="prg-button"
-                                onClick={() => {
-                                    this.upload()
-                                }}
-                            >
-                                {
-                                    this.isSpanish && 
-                                    <>
-                                    Elegir&nbsp;bandera&nbsp;
-                                    </>
-                                }
-                                {
-                                    !this.isSpanish && 
-                                    <>
-                                    Choose&nbsp;a&nbsp;flag&nbsp;
-                                    </>
-                                }
-                                <Icon icon="🏳️" />
-                            </div>
-                            {
-                                this.state.flag &&
-                                <div
-                                    className="prg-button download"
-                                    onClick={() => {
-                                        this.download()
-                                    }}
-                                >
-                                {
-                                    this.isSpanish && 
-                                    <>
-                                    Descargar&nbsp;
-                                    </>
-                                }
-                                {
-                                    !this.isSpanish && 
-                                    <>
-                                    Download&nbsp;
-                                    </>
-                                }
-                                <Icon icon="D" />
-                                </div>
-                            }
-                        </div>
-                    </div>
-                }
-            </AppsBar>
+            <GIFer
+                appId="buon-appetito"
+                loadingImageUrl={`${process.env.RESOURCES_URL}/buon_appetito.png`}
+                sourceImageUrl="./buon_appetito.png"
+                title='Buon Appetito'
+                create={this.create.bind(this)}
+
+                lang={this.lang}
+                loadButtonText='Elegir&nbsp;bandera'
+                
+            />
         )
     }
 }
