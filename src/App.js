@@ -222,6 +222,11 @@ class App extends Component {
 
                 lang={this.lang}
                 loadButtonText='Elegir&nbsp;bandera'
+                defaultImgs={[
+                    './lgtbiq.svg',
+                    './estelada.svg',
+                    './franco.svg'
+                ]}
                 
             />
         )
