@@ -14,7 +14,6 @@ const prodConfig = {
   mode: 'production',
   output: {
     filename: '[name].[contenthash].js',
-    path: path.resolve(process.cwd(), 'docs'),
     clean: true
   },
   plugins: [
