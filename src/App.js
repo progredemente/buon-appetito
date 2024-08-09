@@ -25,7 +25,7 @@ class App extends Component {
                 create={create}
                 deps={[draw, drawFlag, drawUrl]}
                 lang={this.lang}
-                loadButtonText='Elegir&nbsp;bandera'
+                loadButtonText={this.lang === 'es' ? 'Elegir\xa0bandera': 'Choose\xa0flag'}
                 defaultImgs={[
                     './lgtbiq.svg',
                     './estelada.svg',
