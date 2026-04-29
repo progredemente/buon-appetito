@@ -190,5 +190,5 @@ export function drawUrl(context, scaleFactor, side) {
     context.font = `${80 * scaleFactor}px ComicTypo`;
     context.textAlign = "center";
     context.fillStyle = "rgba(0, 0, 0, .5)";
-    context.fillText("progredemente.com/buon-appetito", side * scaleFactor / 2 , 70 * scaleFactor);
+    context.fillText("buon-appetito.progredemente.com", side * scaleFactor / 2 , 70 * scaleFactor);
 }
