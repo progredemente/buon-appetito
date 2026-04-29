@@ -19,7 +19,7 @@ class App extends Component {
         return (
             <GIFer
                 appId="buon-appetito"
-                loadingImageUrl={`${process.env.RESOURCES_URL}/buon_appetito.png`}
+                loadingImageUrl={`${process.env.MEDIA_URL}/resources/logos/buon_appetito.png`}
                 sourceImageUrl="./buon_appetito.png"
                 title='Buon Appetito'
                 create={create}

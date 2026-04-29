@@ -26,7 +26,8 @@ const devConfig = {
     }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
-      resourcesUrl: process.env.RESOURCES_URL
+      componentsUrl: process.env.COMPONENTS_URL,
+      mediaUrl: process.env.MEDIA_URL
     }),
     new webpack.DefinePlugin({
       "process.env": JSON.stringify(process.env),
